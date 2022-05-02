@@ -12,11 +12,9 @@ jobs:
 
     - name: Test GitHub API
       run: |
-        echo $(echo $(pwd)) >> $GITHUB_PATH
-        source ~/.bashrc
         curl https://github.com/kubernetes-sigs/cluster-api-provider-aws/releases/download/v1.4.1/clusterawsadm-linux-amd64 -o clusterawsadm
         chmod +x clusterawsadm
-        clusterawsadm ami list
+        ./clusterawsadm ami list
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
