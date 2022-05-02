@@ -4,7 +4,7 @@ on:
       - main
 
 jobs:
-  watch_k8s_releases:
+  clusterawsadm:
     environment: AWS
     runs-on: ubuntu-latest
     steps:
