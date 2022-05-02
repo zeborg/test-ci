@@ -10,12 +10,17 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
+    
+    - name: Set up Go 
+      uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4 # v2.1.5
+      with:
+        go-version: 1.17
         
-    - name: Test GitHub API
+    - name: Test clusterawsadm using Go
       run: |
         curl -L https://github.com/kubernetes-sigs/cluster-api-provider-aws/releases/download/v1.4.1/clusterawsadm-linux-amd64 -o clusterawsadm
         chmod +x clusterawsadm
-        ./clusterawsadm ami list
+        go run main.go
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
