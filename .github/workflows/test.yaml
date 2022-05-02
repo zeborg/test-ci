@@ -10,6 +10,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
 
+    - name: "Testing env secrets"
+      run: |
+        echo $AWS_ACCESS_KEY_ID
+        echo $AWS_SECRET_ACCESS_KEY
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
     - name: Test GitHub API
       run: |
         curl -L https://github.com/kubernetes-sigs/cluster-api-provider-aws/releases/download/v1.4.1/clusterawsadm-linux-amd64 -o clusterawsadm
