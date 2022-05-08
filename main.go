@@ -3,6 +3,7 @@ package main
 import (
   "bytes"
   "fmt"
+  "log"
   "os/exec"
 )
 
@@ -15,21 +16,18 @@ func Shell(command string) (error, string, string) {
   cmd.Stderr = &stderr
   err := cmd.Run()
 	
-  return err, stdout.String(), stderr.String()
+  return stderr.String(), stdout.String(), err
 }
 
 func main() {
-	err, out, errout := Shell("./clusterawsadm ami list --kubernetes-version v1.24.0")
+	stderr, stdout, err := custom.Shell("cd image-builder/images/capi && PACKER_FLAGS=\"-var=ami_regions=us-east-1 -var=kubernetes_series=v1.24 -var=kubernetes_semver=v1.24.0 -var=kubernetes_rpm_version=1.24.0-0 -var=kubernetes_deb_version=1.24.0-00 \" make build-ami-amazon-2")
 	if err != nil {
-		fmt.Printf("error: %v\n", err)
+		log.Fatalf("ERROR: %s", err)
+	}
+	if stderr != nil {
+		fmt.Fatalf("STDERR: %v\n", stderr)
 	}
 
 	fmt.Println("--- stdout ---")
-	if out != "" {
-		fmt.Println(out)
-	} else {
-		fmt.Println("info: v1.24.0 release not found")
-	}
-	fmt.Println("--- stderr ---")
-	fmt.Println(errout)
+	fmt.Println(stdout)
 }
