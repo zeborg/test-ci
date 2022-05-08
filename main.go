@@ -47,7 +47,7 @@ func main() {
 				log.Println(fmt.Sprintf("Info: Building AMI for OS %s", os))
 				log.Println(fmt.Sprintf("Info: flags:  \"%s\"", flags))
 				
-				stderr, stdout, err := custom.Shell(fmt.Sprintf("cd image-builder/images/capi && PACKER_FLAGS=\"%s\" make build-ami-%s", flags, os))
+				stderr, stdout, err := Shell(fmt.Sprintf("cd image-builder/images/capi && PACKER_FLAGS=\"%s\" make build-ami-%s", flags, os))
 				if err != nil {
 					log.Fatalf("ERROR: %v", err)
 				}
