@@ -20,12 +20,12 @@ func Shell(command string) (string, string, error) {
 }
 
 func main() {
-	stderr, stdout, err := custom.Shell("cd image-builder/images/capi && PACKER_FLAGS=\"-var=ami_regions=us-east-1 -var=kubernetes_series=v1.24 -var=kubernetes_semver=v1.24.0 -var=kubernetes_rpm_version=1.24.0-0 -var=kubernetes_deb_version=1.24.0-00 \" make build-ami-amazon-2")
+	stderr, stdout, err := Shell("cd image-builder/images/capi && PACKER_FLAGS=\"-var=ami_regions=us-east-1 -var=kubernetes_series=v1.24 -var=kubernetes_semver=v1.24.0 -var=kubernetes_rpm_version=1.24.0-0 -var=kubernetes_deb_version=1.24.0-00 \" make build-ami-amazon-2")
 	if err != nil {
 		log.Fatalf("ERROR: %s", err)
 	}
 	if stderr != nil {
-		fmt.Fatalf("STDERR: %v\n", stderr)
+		log.Fatalf("STDERR: %v\n", stderr)
 	}
 
 	fmt.Println("--- stdout ---")
