@@ -7,7 +7,7 @@ import (
   "os/exec"
 )
 
-func Shell(command string) (error, string, string) {
+func Shell(command string) (string, string, error) {
   var stdout bytes.Buffer
   var stderr bytes.Buffer
 	
