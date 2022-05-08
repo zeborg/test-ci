@@ -39,7 +39,7 @@ func main() {
 		kubernetes_deb_version := strings.TrimPrefix(v, "v") + "-00"
 		kubernetes_series := strings.Split(v, ".")[0] + "." + strings.Split(v, ".")[1]
 
-		flagsK8s := fmt.Sprintf("-var=ami_regions=%s -var=kubernetes_series=%s -var=kubernetes_semver=%s -var=kubernetes_rpm_version=%s -var=kubernetes_deb_version=%s ", ami_regions, kubernetes_series, kubernetes_semver, kubernetes_rpm_version, kubernetes_deb_version)
+		flags := fmt.Sprintf("-var=ami_regions=%s -var=kubernetes_series=%s -var=kubernetes_semver=%s -var=kubernetes_rpm_version=%s -var=kubernetes_deb_version=%s ", ami_regions, kubernetes_series, kubernetes_semver, kubernetes_rpm_version, kubernetes_deb_version)
 
 		for _, os := range supportedOS {
 			switch os {
@@ -47,7 +47,7 @@ func main() {
 				log.Println(fmt.Sprintf("Info: Building AMI for OS %s", os))
 				log.Println(fmt.Sprintf("Info: flags:  \"%s\"", flags))
 				
-				stderr, stdout, err := Shell("cd image-builder/images/capi && PACKER_FLAGS=\"-var=ami_regions=us-east-1 -var=kubernetes_series=v1.24 -var=kubernetes_semver=v1.24.0 -var=kubernetes_rpm_version=1.24.0-0 -var=kubernetes_deb_version=1.24.0-00 \" make build-ami-amazon-2")
+				stderr, stdout, err := custom.Shell(fmt.Sprintf("cd image-builder/images/capi && PACKER_FLAGS=\"%s\" make build-ami-%s", flags, os))
 				if err != nil {
 					log.Fatalf("ERROR: %v", err)
 				}
