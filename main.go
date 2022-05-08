@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("ERROR: %s", err)
 	}
-	if stderr != nil {
+	if stderr != "" {
 		log.Fatalf("STDERR: %v\n", stderr)
 	}
 
